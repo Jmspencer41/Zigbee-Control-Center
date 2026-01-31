@@ -26,7 +26,7 @@ This project aims to create a local, self-hosted smart home control center using
 
 4. **WiFi Bandwidth Saturation**
 
-### Our Solution
+### My Solution
 
 A **local, unified Zigbee control center** that operates independently of cloud services, consolidates device control, and uses dedicated low-power mesh networking to preserve WiFi bandwidth.
 
@@ -48,7 +48,7 @@ A **local, unified Zigbee control center** that operates independently of cloud 
 - **VS Code** - Development environment
 - **Zigbee Protocol** - Low-power mesh networking
 - **ESP32-C6** - Zigbee coordinator hardware
-
+- **Raspberry Pi 4** - Hardware
 ---
 
 ## Sprint Definitions
