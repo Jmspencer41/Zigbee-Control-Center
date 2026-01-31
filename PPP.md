@@ -1,6 +1,6 @@
 ---
 marp: true
-backgroundImage: url('/home/josh/Nextcloud/School/Spring_2026/CSC_494/Project/images/CircuitBoard-LtGrey-Wide.jpg')
+backgroundImage: url('images/CircuitBoard-LtGrey-Wide.jpg')
 ---
 <style>
 h1, h2, h3, h4, h5, h6 {
