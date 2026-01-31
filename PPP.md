@@ -34,7 +34,7 @@ A **local, unified Zigbee control center** that operates independently of cloud 
 # Project Architecture
 
 <center>
-<img src="/home/josh/Nextcloud/School/Spring_2026/CSC_494/Project/images/diagram.png" width=750>
+<img src="images/diagram.png" width=750>
 </center>
 
 ---
