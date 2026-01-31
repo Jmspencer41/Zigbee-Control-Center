@@ -45,10 +45,11 @@ A **local, unified Zigbee control center** that operates independently of cloud 
 - **Python 3** - Application logic and sensor management
 - **TKinter** - Local graphical user interface
 - **ESP-IDF** - ESP32 firmware development framework
-- **VS Code** - Development environment
 - **Zigbee Protocol** - Low-power mesh networking
 - **ESP32-C6** - Zigbee coordinator hardware
-- **Raspberry Pi 4** - Hardware
+- **Raspberry Pi 4** - Main Hardware
+- **Sensors** - Various sensors 
+
 ---
 
 ### Sprint 1: Raspberry Pi Sensor Interface Development
@@ -72,7 +73,6 @@ A **local, unified Zigbee control center** that operates independently of cloud 
 - All sensors provide accurate real-time readings
 - GUI displays all sensor data clearly
 - Application runs stably on Raspberry Pi OS
-- No cloud dependencies for sensor functionality
 
 **Technical Requirements:**
 - Python libraries: RPi.GPIO, Adafruit DHT, PiCamera2, TKinter
@@ -102,13 +102,8 @@ A **local, unified Zigbee control center** that operates independently of cloud 
 - Device discovery works reliably
 - Interface displays connected Zigbee devices
 - Connects to end device
-
-**Technical Requirements:**
-- ESP-IDF Zigbee library implementation
-- Serial or network communication protocol (Pi ↔ ESP32)
 - Zigbee network formation and management
-- Device pairing workflow
-- Status monitoring and error reporting
+- Status monitoring and error reporting is accurate
 
 ---
 
@@ -116,8 +111,8 @@ A **local, unified Zigbee control center** that operates independently of cloud 
 
 ### High Priority (Sprint 1-3 Scope)
 
-- [ ] Set up Raspberry Pi development environment
-- [ ] Install and configure Python 3 with required libraries
+- [X] Set up Raspberry Pi development environment
+- [X] Install and configure Python 3 with required libraries
 - [ ] Wire DHT22 temperature/humidity sensor
 - [ ] Wire LD2410C presence sensor
 - [ ] Connect Pi Camera Module v2
