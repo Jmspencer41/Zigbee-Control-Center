@@ -2,9 +2,6 @@
 
 This project aims to create a local, self-hosted smart home control center using a Raspberry Pi and ESP32-C6. The system will leverage Zigbee protocol to provide reliable, cloud-independent home automation with unified control.
 
-# Zigbee-Control-Center
-
-
 ## Project Description
 
 This project aims to create a local, self-hosted smart home control center using a Raspberry Pi and ESP32-C6. The system will leverage Zigbee protocol to provide reliable, cloud-independent home automation with unified control.
