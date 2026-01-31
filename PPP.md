@@ -176,18 +176,6 @@ A **local, unified Zigbee control center** that operates independently of cloud 
 
 ---
 
-## Dependencies
-
----
-
-## Resources Required
-
----
-
-## Next Steps
-
----
-
 ### References
 - ESP32-C6 Datasheet
 - Zigbee 3.0 Specification
