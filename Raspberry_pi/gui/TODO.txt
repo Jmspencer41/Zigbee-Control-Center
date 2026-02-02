@@ -2,9 +2,8 @@ TODOs in this directory
 ========================
 
 File: device_list.py
-16:        # Example device buttons TODO: Make dynamic from actual devices
-32:        if True: #TODO implement device status check
-60:### TODO: Make this a proper class in its own file ###
+17:        # Example device buttons TODO: Make dynamic from actual devices
+34:        if True: #TODO implement device status check
 
 File: environment.py
 79:        Lights_button.setIconSize(QSize(120, 120)) ### TODO: Not worlking ###
@@ -31,11 +30,11 @@ File: main (conflicted copy 2026-02-02 113605).py
 168:##3 TODO Implement MQTT functionality ###'''
 
 File: main.py
-20:### TODO: Make sizes of icons, buttons, fonts dynamic based on screen size ###
-27:        # TODO: Hide the mouse cursor
-33:        Title = "Raspberry Pi Zigbee Controller" #TODO Make Dynamic from user input.
-76:    ### TODO: Temperary - Escape key to exit full screen ###
-98:##3 TODO Implement MQTT functionality ###'''
+16:### TODO: Make sizes of icons, buttons, fonts dynamic based on screen size ###
+23:        # TODO: Hide the mouse cursor
+29:        Title = "Raspberry Pi Zigbee Controller" #TODO Make Dynamic from user input.
+72:    ### TODO: Temperary - Escape key to exit full screen ###
+94:##3 TODO Implement MQTT functionality ###'''
 
 File: top_layer_buttons.py
 10:###### TODO: Add buttons and functionality below ######

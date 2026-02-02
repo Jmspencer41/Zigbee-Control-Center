@@ -15,20 +15,19 @@ class EnvironmentLayout(QVBoxLayout):
         temp_humid_layout = QHBoxLayout()
         temp_humid_layout.setSpacing(20)
         
-        # Temperature side
         temp_layout = QVBoxLayout()
         temp_layout.addStretch()
         
         temp_label_title = QLabel("Temperature")
-        temp_label_title.setFont(QFont('Arial', 20, QFont.Weight.Bold))
+        temp_label_title.setFont(QFont('Arial', 40, QFont.Weight.Bold))
         temp_label_title.setStyleSheet("color: #2c3e50;")
-        temp_label_title.setAlignment(Qt.AlignmentFlag.AlignCenter)  # Center horizontally
+        temp_label_title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         temp_layout.addWidget(temp_label_title)
         
-        temp = 22  # Placeholder
+        temp = 22  # TODO: Bring in data from DHT22 sensor
         temp_label = QLabel(f"{temp}°C")
         temp_label.setFont(QFont('Arial', 24))
-        temp_label.setAlignment(Qt.AlignmentFlag.AlignCenter)  # Center horizontally
+        temp_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         temp_label.setStyleSheet("""
             color: white;
             background-color: #e74c3c;
@@ -42,20 +41,19 @@ class EnvironmentLayout(QVBoxLayout):
         
         temp_humid_layout.addLayout(temp_layout)
         
-        # Humidity side
         humid_layout = QVBoxLayout()
         humid_layout.addStretch()
         
         humid_label_title = QLabel("Humidity")
-        humid_label_title.setFont(QFont('Arial', 20, QFont.Weight.Bold))
+        humid_label_title.setFont(QFont('Arial', 40, QFont.Weight.Bold))
         humid_label_title.setStyleSheet("color: #2c3e50;")
-        humid_label_title.setAlignment(Qt.AlignmentFlag.AlignCenter)  # Center horizontally
+        humid_label_title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         humid_layout.addWidget(humid_label_title)
         
-        humid = 45  # Placeholder
+        humid = 45  # TODO: Bring in data from DHT22 sensor
         humid_label = QLabel(f"{humid}%")
         humid_label.setFont(QFont('Arial', 24))
-        humid_label.setAlignment(Qt.AlignmentFlag.AlignCenter)  # Center horizontally
+        humid_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         humid_label.setStyleSheet("""
             color: white;
             background-color: #3498db;
@@ -75,12 +73,27 @@ class EnvironmentLayout(QVBoxLayout):
         
         ### BOTTOM HALF: Lights Button ###
         Lights_button = QPushButton()
-        Lights_button.setIcon(QIcon('/home/josh/Nextcloud/School/Spring_2026/CSC_494/Project/images/light_on.png'))  # Set the icon
-        Lights_button.setIconSize(QSize(120, 120)) ### TODO: Not worlking ###
+        Lights_button.setIcon(QIcon('icons/light_on.png'))
+        Lights_button.setIconSize(QSize(80, 80))
         Lights_button.setFont(QFont('Arial', 20))
-        Lights_button.setStyleSheet("""
+
+        if True:  # TODO: Implement light status check
+            Lights_button.setStyleSheet("""
             QPushButton {
                 background-color: #f1c40f;
+                color: #2c3e50;
+                border-radius: 100px;
+                min-width: 200px;
+                min-height: 200px;
+            }
+            QPushButton:pressed {
+                background-color: #b7950b;
+            }
+        """)        
+        else:
+            Lights_button.setStyleSheet("""
+            QPushButton {
+                background-color: #00004d;
                 color: #2c3e50;
                 border-radius: 100px;
                 min-width: 200px;
@@ -93,5 +106,4 @@ class EnvironmentLayout(QVBoxLayout):
         envi_area_layout.addWidget(Lights_button, alignment=Qt.AlignmentFlag.AlignCenter)
         envi_area_layout.setStretch(1, 1)  # Bottom half gets 50%
         
-        # Add the whole thing to self
         self.addWidget(envi_area_widget)
