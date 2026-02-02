@@ -113,8 +113,8 @@ A **local, unified Zigbee control center** that operates independently of cloud 
 
 - [X] Set up Raspberry Pi development environment
 - [X] Install and configure Python 3 with required libraries
-- [ ] DHT22 temperature/humidity sensor using adaFruit Library
-- [ ] LD2410C presence sensor using pyserial library 
+- [ ] DHT22 temperature/humidity sensor using adaFruit Library.
+- [ ] LD2410C presence sensor
 - [ ] Connect Pi Camera Module v2
 - [ ] Develop PyQt6 GUI framework
 - [ ] Implement sensor data collection routines

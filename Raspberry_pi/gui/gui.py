@@ -135,6 +135,7 @@ class MainWindow(QMainWindow):
         for i in range(20):
             device_button = create_device_button(f"Device {i+1}")
             device_list_layout.addWidget(device_button)
+            device_list_layout.addSpacing(10)
 
         scrollable_area.setWidget(device_list_widget)
         scrollable_area.setWidgetResizable(True)
@@ -147,17 +148,37 @@ class MainWindow(QMainWindow):
         ### TODO: Make dynamic from actual environment data ###
         temp_humid_layout = QHBoxLayout()
         temp_humid_layout.setSpacing(20)
+        temp_humid_layout.setSizeConstraint(QHBoxLayout.SizeConstraint.SetFixedSize)
+
+        ### TODO: Replace with actual sensor data ###
+        temp = 22  # Placeholder temperature
+        humid = 45  # Placeholder humidity
         
-        temp_label = QLabel("Temp: 22°C")
-        temp_label.setFont(QFont('Arial', 16))
+        temp_layout = QVBoxLayout()
+        temp_label_title = QLabel("Temperature")
+        temp_label_title.setFont(QFont('Arial', 20, QFont.Weight.Bold))
+        temp_label_title.setStyleSheet("color: #2c3e50;")
+        temp_layout.addWidget(temp_label_title)
+        temp_humid_layout.addLayout(temp_layout)
+
+        humid_layout = QVBoxLayout()
+        humid_label_title = QLabel("Humidity")
+        humid_label_title.setFont(QFont('Arial', 20, QFont.Weight.Bold))
+        humid_label_title.setStyleSheet("color: #2c3e50;")  
+        humid_layout.addWidget(humid_label_title)
+        temp_humid_layout.addLayout(humid_layout)
+
+        temp_label = QLabel(f"{temp}°C")
+        temp_label.setFont(QFont('Arial', 24))
         temp_label.setStyleSheet("color: #2c3e50;") 
+
+        temp_layout.addWidget(temp_label)
         
-        humid_label = QLabel("Humidity: 45%")
-        humid_label.setFont(QFont('Arial', 16))
+        humid_label = QLabel(f"{humid}%")
+        humid_label.setFont(QFont('Arial', 24))
         humid_label.setStyleSheet("color: #2c3e50;")
-        
-        temp_humid_layout.addWidget(temp_label)
-        temp_humid_layout.addWidget(humid_label)
+
+        humid_layout.addWidget(humid_label)
 
         envi_area_layout.addLayout(temp_humid_layout)
         
@@ -199,18 +220,33 @@ def create_device_button(name):
     button = QPushButton(name)
     button.setMinimumHeight(100)
     button.setFont(QFont('Arial', 12))
-    button.setStyleSheet("""
-        QPushButton {
-            background-color: #1abc9c;
-            color: white;
-            border-radius: 25px;
-            padding: 10px;
-            text-align: left;
-                         }
-            QPushButton:pressed {
-                background-color: #626d6e;
-            }
-        """)
+
+    if True: #TODO implement device status check
+        button.setStyleSheet("""
+            QPushButton {
+                background-color: #00B814;
+                color: white;
+                border-radius: 25px;
+                padding: 10px;
+                text-align: left;
+                            }
+                QPushButton:pressed {
+                    background-color: #626d6e;
+                }
+            """)
+    else:
+        button.setStyleSheet("""
+            QPushButton {
+                background-color: #1abc9c;
+                color: white;
+                border-radius: 25px;
+                padding: 10px;
+                text-align: left;
+                            }
+                QPushButton:pressed {
+                    background-color: #626d6e;
+                }
+            """)
     return button
 
 ### TODO: Make this a proper class in its own file ###
