@@ -17,6 +17,8 @@ from top_layer_buttons import TopLayerButtons
 from device_list import DeviceListLayout
 from environment import EnvironmentLayout
 
+### TODO: Make sizes of icons, buttons, fonts dynamic based on screen size ###
+
 class MainWindow(QMainWindow):    
     def __init__(self):
         super().__init__()

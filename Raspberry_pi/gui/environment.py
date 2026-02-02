@@ -75,9 +75,9 @@ class EnvironmentLayout(QVBoxLayout):
         
         ### BOTTOM HALF: Lights Button ###
         Lights_button = QPushButton()
-        Lights_button.setIcon(QIcon('images/light_on.png'))  # Set the icon
-        Lights_button.setIconSize(QSize(80, 80))
-        Lights_button.setFont(QFont('Arial', 20))  # Large emoji
+        Lights_button.setIcon(QIcon('/home/josh/Nextcloud/School/Spring_2026/CSC_494/Project/images/light_on.png'))  # Set the icon
+        Lights_button.setIconSize(QSize(120, 120)) ### TODO: Not worlking ###
+        Lights_button.setFont(QFont('Arial', 20))
         Lights_button.setStyleSheet("""
             QPushButton {
                 background-color: #f1c40f;
