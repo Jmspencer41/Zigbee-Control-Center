@@ -26,7 +26,7 @@ class EnvironmentLayout(QVBoxLayout):
         
         temp = 22  # TODO: Bring in data from DHT22 sensor
         temp_label = QLabel(f"{temp}°C")
-        temp_label.setFont(QFont('Arial', 24))
+        temp_label.setFont(QFont('Arial', 40))
         temp_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         temp_label.setStyleSheet("""
             color: white;
@@ -52,7 +52,7 @@ class EnvironmentLayout(QVBoxLayout):
         
         humid = 45  # TODO: Bring in data from DHT22 sensor
         humid_label = QLabel(f"{humid}%")
-        humid_label.setFont(QFont('Arial', 24))
+        humid_label.setFont(QFont('Arial', 40))
         humid_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         humid_label.setStyleSheet("""
             color: white;
