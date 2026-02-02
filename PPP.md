@@ -43,7 +43,7 @@ A **local, unified Zigbee control center** that operates independently of cloud 
 
 - **Raspberry Pi OS** - Primary operating system
 - **Python 3** - Application logic and sensor management
-- **TKinter** - Local graphical user interface
+- **PyQt6** - Local graphical user interface
 - **ESP-IDF** - ESP32 firmware development framework
 - **Zigbee Protocol** - Low-power mesh networking
 - **ESP32-C6** - Zigbee coordinator hardware
@@ -116,7 +116,7 @@ A **local, unified Zigbee control center** that operates independently of cloud 
 - [ ] Wire DHT22 temperature/humidity sensor
 - [ ] Wire LD2410C presence sensor
 - [ ] Connect Pi Camera Module v2
-- [ ] Develop TKinter GUI framework
+- [ ] Develop PyQt6 GUI framework
 - [ ] Implement sensor data collection routines
 - [ ] Create real-time data display widgets
 - [ ] Add data logging functionality
@@ -126,7 +126,7 @@ A **local, unified Zigbee control center** that operates independently of cloud 
 - [ ] Implement Pi-to-ESP32 communication protocol
 - [ ] Develop Zigbee network formation code
 - [ ] Create device pairing workflow
-- [ ] Integrate Zigbee controls into TKinter interface
+- [ ] Integrate Zigbee controls into PyQt6 interface
 - [ ] Design smart vent hardware assembly
 - [ ] Develop Zigbee end device firmware
 - [ ] Implement vent servo/motor control
