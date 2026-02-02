@@ -1,7 +1,7 @@
 from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout)
 from PyQt6.QtGui import QFont
-from Functionality.scrollable_button import ScrollableButton
-from Functionality.touch_scroll_area import TouchScrollArea
+from .Functionality.scrollable_button import ScrollableButton
+from .Functionality.touch_scroll_area import TouchScrollArea
 
 class DeviceListLayout(QHBoxLayout):
     def __init__(self):

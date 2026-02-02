@@ -6,9 +6,9 @@ from PyQt6.QtWidgets import (QMainWindow,
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QFont
 
-from top_layer_buttons import TopLayerButtons
-from device_list import DeviceListLayout
-from environment import EnvironmentLayout
+from .top_layer_buttons import TopLayerButtons
+from .device_list import DeviceListLayout
+from .environment import EnvironmentLayout
 
 ### TODO: Make sizes of icons, buttons, fonts dynamic based on screen size ###
 

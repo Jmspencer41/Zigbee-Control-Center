@@ -1,8 +1,8 @@
 from PyQt6.QtWidgets import (QVBoxLayout, QHBoxLayout, QPushButton)
 from PyQt6.QtGui import QFont
-from dialogs.pair_devices_dialog import PairDevicesDialog
-from dialogs.settings_dialog import SettingsDialog
-from dialogs.logs_dialog import LogsDialog 
+from .dialogs.pair_devices_dialog import PairDevicesDialog
+from .dialogs.settings_dialog import SettingsDialog
+from .dialogs.logs_dialog import LogsDialog 
 
 class TopLayerButtons(QVBoxLayout):
     def __init__(self):
