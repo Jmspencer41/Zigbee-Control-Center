@@ -2,39 +2,22 @@ TODOs in this directory
 ========================
 
 File: device_list.py
-17:        # Example device buttons TODO: Make dynamic from actual devices
-34:        if True: #TODO implement device status check
+18:        # Example device buttons TODO: Make dynamic from actual devices
+31:        device_status = True #TODO: Implement actual device status check
 
 File: environment.py
-79:        Lights_button.setIconSize(QSize(120, 120)) ### TODO: Not worlking ###
-
-File: gui.py
-21:        # TODO: Hide the mouse cursor
-27:        Title = "Raspberry Pi Zigbee Controller" #TODO Make Dynamic from user input.
-51:        ###### TODO: Add buttons and functionality below ######
-134:        # Example device buttons TODO: Make dynamic from actual devices
-148:        ### TODO: Make dynamic from actual environment data ###
-153:        ### TODO: Replace with actual sensor data ###
-211:    ### TODO: Temperary - Escape key to exit full screen ###
-224:    if True: #TODO implement device status check
-252:### TODO: Make this a proper class in its own file ###
-307:##3 TODO Implement MQTT functionality ###'''
-
-File: main (conflicted copy 2026-02-02 113605).py
-23:        # TODO: Hide the mouse cursor
-29:        Title = "Raspberry Pi Zigbee Controller" #TODO Make Dynamic from user input.
-70:        # Example device buttons TODO: Make dynamic from actual devices
-84:        ### TODO: Make dynamic from actual environment data ###
-89:        ### TODO: Replace with actual sensor data ###
-147:    ### TODO: Temperary - Escape key to exit full screen ###
-168:##3 TODO Implement MQTT functionality ###'''
+27:        temp = 22  # TODO: Bring in data from DHT22 sensor
+53:        humid = 45  # TODO: Bring in data from DHT22 sensor
+80:        if True:  # TODO: Implement light status check
 
 File: main.py
-16:### TODO: Make sizes of icons, buttons, fonts dynamic based on screen size ###
-23:        # TODO: Hide the mouse cursor
-29:        Title = "Raspberry Pi Zigbee Controller" #TODO Make Dynamic from user input.
-72:    ### TODO: Temperary - Escape key to exit full screen ###
-94:##3 TODO Implement MQTT functionality ###'''
+17:##3 TODO Implement MQTT functionality ###'''
+
+File: main_window.py
+13:### TODO: Make sizes of icons, buttons, fonts dynamic based on screen size ###
+20:        # TODO: Hide the mouse cursor
+26:        Title = "Raspberry Pi Zigbee Controller" #TODO Make Dynamic from user input.
+69:    ### TODO: Temperary - Escape key to exit full screen ###
 
 File: top_layer_buttons.py
 10:###### TODO: Add buttons and functionality below ######
