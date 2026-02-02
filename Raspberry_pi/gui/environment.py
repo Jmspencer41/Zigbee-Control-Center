@@ -1,3 +1,5 @@
+import os
+
 from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton)
 from PyQt6.QtGui import (QFont, QIcon)
 from PyQt6.QtCore import (Qt, QSize)
@@ -6,6 +8,8 @@ class EnvironmentLayout(QVBoxLayout):
     def __init__(self):
         super().__init__()
         
+        SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+
         envi_area_widget = QWidget()
         envi_area_widget.setStyleSheet("background-color: #89c2fa; border-radius: 15px;")  
         envi_area_layout = QVBoxLayout()
@@ -73,8 +77,10 @@ class EnvironmentLayout(QVBoxLayout):
         
         ### BOTTOM HALF: Lights Button ###
         Lights_button = QPushButton()
-        Lights_button.setIcon(QIcon('icons/light_on.png'))
-        Lights_button.setIconSize(QSize(80, 80))
+        
+        icon_path = os.path.join(SCRIPT_DIR, 'icons', 'light_on.png')
+        Lights_button.setIcon(QIcon(icon_path))
+        Lights_button.setIconSize(QSize(100, 100))
         Lights_button.setFont(QFont('Arial', 20))
 
         if True:  # TODO: Implement light status check

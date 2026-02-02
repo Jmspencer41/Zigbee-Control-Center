@@ -30,8 +30,8 @@ class DeviceListLayout(QHBoxLayout):
         
         device_status = True #TODO: Implement actual device status check
         button = ScrollableButton(name) 
-        button.setMinimumHeight(100)
-        button.setFont(QFont('Arial', 12))
+        button.setMinimumHeight(120)
+        button.setFont(QFont('Arial', 20))
 
         if device_status:
             button.setStyleSheet("""
