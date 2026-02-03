@@ -59,7 +59,7 @@ A **local, unified Zigbee control center** that operates independently of cloud 
 
 **Deliverables:**
 - Python3 application running on Raspberry Pi OS
-- TKinter-based graphical user interface
+- PyQt6-based graphical user interface
 - Integration of three sensor systems:
   - **DHT22** - Temperature and humidity monitoring
   - **LD2410C** - Presence detection
@@ -75,10 +75,10 @@ A **local, unified Zigbee control center** that operates independently of cloud 
 - Application runs stably on Raspberry Pi OS
 
 **Technical Requirements:**
-- Python libraries: RPi.GPIO, Adafruit DHT, PiCamera2, TKinter
+- Python libraries: Pysense, Adafruit DHT, PiCamera2, PyQt6s
 - Proper sensor calibration
 - Error handling for sensor disconnections
-- Responsive UI updates (no blocking operations)
+- Responsive UI updates with multi-threading
 
 ---
 
@@ -92,7 +92,7 @@ A **local, unified Zigbee control center** that operates independently of cloud 
 - Zigbee coordinator configuration
 - Communication protocol between Raspberry Pi and ESP32
 - Network discovery and device pairing functionality
-- Integration of Zigbee control into TKinter interface
+- Integration of Zigbee control into PyQt6s interface
 
 ---
 
@@ -137,11 +137,11 @@ A **local, unified Zigbee control center** that operates independently of cloud 
 
 ### Medium Priority (Future Enhancements)
 
+- [ ] **Integrate into Home Assistant**
 - [ ] Add historical data visualization (graphs/charts)
 - [ ] Implement automation scheduling (time-based rules)
 - [ ] Create scene/preset configurations
 - [ ] Add notification system for alerts
-- [ ] Develop mobile-friendly web interface
 - [ ] Implement backup and restore functionality
 - [ ] Create device grouping capabilities
 - [ ] Add energy usage monitoring
@@ -175,10 +175,14 @@ A **local, unified Zigbee control center** that operates independently of cloud 
 
 ---
 
-### References
+### References and Documentation
 - ESP32-C6 Datasheet
 - Zigbee 3.0 Specification
 - DHT22 Sensor Documentation
 - LD2410C mmWave Radar Sensor Guide
 - Raspberry Pi Camera Module v2 Documentation
 - ESP-IDF Programming Guide
+
+---
+
+# Question Time!

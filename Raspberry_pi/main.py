@@ -16,13 +16,17 @@ def main():
     temp_humid_monitor = tempHumidMonitor()
     window = MainWindow(temp_humid_monitor)
     window.show()
-    sys.exit(app.exec())
+
+    try:
+        sys.exit(app.exec())
+    finally:
+        temp_humid_monitor.stop() 
 
 if __name__ == '__main__':
     main()
 
 
-##3 TODO Implement MQTT functionality ###'''
+### TODO: Implement MQTT functionality ###'''
             ### MQTT code snippet ###
 '''
         def connect_mqtt(self): 
