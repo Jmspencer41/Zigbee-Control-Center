@@ -6,12 +6,7 @@ File: device_list.py
 31:        device_status = True #TODO: Implement actual device status check
 
 File: environment.py
-27:        temp = 22  # TODO: Bring in data from DHT22 sensor
-53:        humid = 45  # TODO: Bring in data from DHT22 sensor
-80:        if True:  # TODO: Implement light status check
-
-File: main.py
-17:##3 TODO Implement MQTT functionality ###'''
+90:        if True:  # TODO: Implement light status check
 
 File: main_window.py
 13:### TODO: Make sizes of icons, buttons, fonts dynamic based on screen size ###
@@ -20,5 +15,5 @@ File: main_window.py
 69:    ### TODO: Temperary - Escape key to exit full screen ###
 
 File: top_layer_buttons.py
-10:###### TODO: Add buttons and functionality below ######
+11:###### TODO: Add buttons and functionality below ######
 

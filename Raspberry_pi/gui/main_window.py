@@ -13,8 +13,9 @@ from .environment import EnvironmentLayout
 ### TODO: Make sizes of icons, buttons, fonts dynamic based on screen size ###
 
 class MainWindow(QMainWindow):    
-    def __init__(self):
+    def __init__(self, temp_humid_monitor):
         super().__init__()
+        self.temp_humid_monitor = temp_humid_monitor
         self.init_ui()
         
         # TODO: Hide the mouse cursor
@@ -55,7 +56,7 @@ class MainWindow(QMainWindow):
         Devices_layout = QHBoxLayout()
         Devices_layout.setSpacing(15)
         device_list_layout = DeviceListLayout()
-        envi_area_layout = EnvironmentLayout()
+        envi_area_layout = EnvironmentLayout(self.temp_humid_monitor)
         
         Devices_layout.addLayout(device_list_layout)
         Devices_layout.setStretch(Devices_layout.count() - 1, 1)  # device_list_layout gets 50%

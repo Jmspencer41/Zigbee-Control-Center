@@ -2,11 +2,10 @@ import os
 
 from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton)
 from PyQt6.QtGui import (QFont, QIcon)
-from PyQt6.QtCore import (Qt, QSize)
-from .Functionality.temp_humid_monitor import tempHumidMonitor
+from PyQt6.QtCore import (Qt, QSize, QTimer)
 
 class EnvironmentLayout(QVBoxLayout):
-    def __init__(self):
+    def __init__(self, temp_humid_monitor):
         super().__init__()
         
         SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -29,7 +28,8 @@ class EnvironmentLayout(QVBoxLayout):
         temp_label_title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         temp_layout.addWidget(temp_label_title)
 
-        temp = tempHumidMonitor().get_temperature()
+        temp = temp_humid_monitor.get_temperature()
+        humid = temp_humid_monitor.get_humidity()
 
         temp_label = QLabel(f"{temp}°C")
         temp_label.setFont(QFont('Arial', 40))
@@ -57,7 +57,6 @@ class EnvironmentLayout(QVBoxLayout):
         humid_label_title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         humid_layout.addWidget(humid_label_title)
         
-        humid = tempHumidMonitor().get_humidity()
         humid_label = QLabel(f"{humid}%")
         humid_label.setFont(QFont('Arial', 40))
         humid_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -72,6 +71,11 @@ class EnvironmentLayout(QVBoxLayout):
         """)
         humid_layout.addWidget(humid_label)
         humid_layout.addStretch()
+
+        # Store reference for updates later
+        self.temp_label = temp_label
+        self.humid_label = humid_label
+        self.temp_humid_monitor = temp_humid_monitor
         
         temp_humid_layout.addLayout(humid_layout)
         
@@ -116,5 +120,18 @@ class EnvironmentLayout(QVBoxLayout):
         """)
         envi_area_layout.addWidget(Lights_button, alignment=Qt.AlignmentFlag.AlignCenter)
         envi_area_layout.setStretch(1, 1)  # Bottom half gets 50%
-        
+
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.update_sensor_values)
+        self.timer.start(5000)  # Update every 5 seconds
+    
         self.addWidget(envi_area_widget)
+
+    def update_sensor_values(self):
+        temp = self.temp_humid_monitor.get_temperature()
+        humid = self.temp_humid_monitor.get_humidity()
+        
+        if temp is not None:
+            self.temp_label.setText(f"{temp:.1f}°C")
+        if humid is not None:
+            self.humid_label.setText(f"{humid:.1f}%")
