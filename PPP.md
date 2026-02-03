@@ -114,11 +114,10 @@ A **local, unified Zigbee control center** that operates independently of cloud 
 - [X] Set up Raspberry Pi development environment
 - [X] Install and configure Python 3 with required libraries
 - [X] Create Raspberry Pi GUI
+- [X] Develop PyQt6 GUI framework
 - [ ] DHT22 temperature/humidity sensor using adaFruit Library.
 - [ ] LD2410C presence sensor
 - [ ] Connect Pi Camera Module v2
-- [ ] Develop PyQt6 GUI framework
-- [ ] Implement sensor data collection routines
 - [ ] Add data logging functionality
 ---
 - [X] Set up ESP-IDF development environment in VS Code
@@ -126,7 +125,7 @@ A **local, unified Zigbee control center** that operates independently of cloud 
 - [ ] Implement Pi-to-ESP32 communication protocol
 - [ ] Create device pairing workflow
 - [ ] Integrate Zigbee controls into PyQt6 interface
-- [ ] Design smart home hardware assembly
+- [ ] Write dynamic hashing function to create unique Zigbee PAN IDs
 - [ ] Develop Zigbee end device firmware
 - [ ] Implement vent servo/motor control
 - [ ] Create temperature-based automation logic
