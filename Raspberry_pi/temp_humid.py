@@ -3,7 +3,7 @@ import time
 import threading
 
 DHT_SENSOR = Adafruit_DHT.DHT22
-DHT_PIN = 4  # GPIO pin where the DHT22 is connected
+DHT_PIN = 4  
 
 class TempHumidSensor(threading.Thread):
     def __init__(self, sensor=DHT_SENSOR, pin=DHT_PIN, interval=30):

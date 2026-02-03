@@ -10,7 +10,7 @@ class DeviceListLayout(QHBoxLayout):
         scrollable_area = TouchScrollArea()
 
         device_list_widget = QWidget()
-        device_list_widget.setStyleSheet("background-color: #89c2fa; border-radius: 15px;")  # Match background
+        device_list_widget.setStyleSheet("background-color: #99ddff; border-radius: 15px;")  # Match background
         device_list_layout = QVBoxLayout()
         device_list_layout.setContentsMargins(10, 10, 10, 10)  # Add padding inside
         device_list_widget.setLayout(device_list_layout)
@@ -36,11 +36,12 @@ class DeviceListLayout(QHBoxLayout):
         if device_status:
             button.setStyleSheet("""
                 QPushButton {
-                    background-color: #00B814;
+                    background-color: #00994d;
                     color: white;
                     border-radius: 25px;
                     padding: 10px;
                     text-align: left;
+                    border: 2px solid rgba(0, 0, 0, 0.2);
                                 }
                     QPushButton:pressed {
                         background-color: #626d6e;
@@ -54,6 +55,7 @@ class DeviceListLayout(QHBoxLayout):
                     border-radius: 25px;
                     padding: 10px;
                     text-align: left;
+                    border: 2px solid rgba(0, 0, 0, 0.2);
                                 }
                     QPushButton:pressed {
                         background-color: #626d6e;

@@ -1,12 +1,20 @@
 import sys
+import os
+
+### Adjust sys.path to include project root | Only needed to launch from VS Code Run button ###
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+if project_root not in sys.path:
+    sys.path.insert(0, project_root)
 
 from PyQt6.QtWidgets import QApplication
-from gui.main_window import MainWindow
+from Raspberry_pi.gui.main_window import MainWindow
+from Raspberry_pi.gui.Functionality.temp_humid_monitor import tempHumidMonitor
 
 def main():
 
     app = QApplication(sys.argv)
-    window = MainWindow()
+    temp_humid_monitor = tempHumidMonitor()
+    window = MainWindow(temp_humid_monitor)
     window.show()
     sys.exit(app.exec())
 

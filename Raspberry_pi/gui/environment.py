@@ -3,6 +3,7 @@ import os
 from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton)
 from PyQt6.QtGui import (QFont, QIcon)
 from PyQt6.QtCore import (Qt, QSize)
+from .Functionality.temp_humid_monitor import tempHumidMonitor
 
 class EnvironmentLayout(QVBoxLayout):
     def __init__(self):
@@ -11,7 +12,7 @@ class EnvironmentLayout(QVBoxLayout):
         SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
         envi_area_widget = QWidget()
-        envi_area_widget.setStyleSheet("background-color: #89c2fa; border-radius: 15px;")  
+        envi_area_widget.setStyleSheet("background-color: #99ddff; border-radius: 15px;")  
         envi_area_layout = QVBoxLayout()
         envi_area_widget.setLayout(envi_area_layout)
         
@@ -27,8 +28,9 @@ class EnvironmentLayout(QVBoxLayout):
         temp_label_title.setStyleSheet("color: #2c3e50;")
         temp_label_title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         temp_layout.addWidget(temp_label_title)
-        
-        temp = 22  # TODO: Bring in data from DHT22 sensor
+
+        temp = tempHumidMonitor().get_temperature()
+
         temp_label = QLabel(f"{temp}°C")
         temp_label.setFont(QFont('Arial', 40))
         temp_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -39,6 +41,7 @@ class EnvironmentLayout(QVBoxLayout):
             padding: 20px;
             min-width: 100px;
             min-height: 100px;
+            border: 2px solid rgba(0, 0, 0, 0.2);
         """)
         temp_layout.addWidget(temp_label)
         temp_layout.addStretch()
@@ -54,7 +57,7 @@ class EnvironmentLayout(QVBoxLayout):
         humid_label_title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         humid_layout.addWidget(humid_label_title)
         
-        humid = 45  # TODO: Bring in data from DHT22 sensor
+        humid = tempHumidMonitor().get_humidity()
         humid_label = QLabel(f"{humid}%")
         humid_label.setFont(QFont('Arial', 40))
         humid_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -65,6 +68,7 @@ class EnvironmentLayout(QVBoxLayout):
             padding: 20px;
             min-width: 100px;
             min-height: 100px;
+            border: 2px solid rgba(0, 0, 0, 0.2);
         """)
         humid_layout.addWidget(humid_label)
         humid_layout.addStretch()
@@ -80,7 +84,7 @@ class EnvironmentLayout(QVBoxLayout):
         
         icon_path = os.path.join(SCRIPT_DIR, 'icons', 'light_on.png')
         Lights_button.setIcon(QIcon(icon_path))
-        Lights_button.setIconSize(QSize(100, 100))
+        Lights_button.setIconSize(QSize(120, 120))
         Lights_button.setFont(QFont('Arial', 20))
 
         if True:  # TODO: Implement light status check
@@ -89,8 +93,9 @@ class EnvironmentLayout(QVBoxLayout):
                 background-color: #f1c40f;
                 color: #2c3e50;
                 border-radius: 100px;
-                min-width: 200px;
-                min-height: 200px;
+                min-width: 250px;
+                min-height: 250px;
+                border: 2px solid rgba(0, 0, 0, 0.2);                        
             }
             QPushButton:pressed {
                 background-color: #b7950b;

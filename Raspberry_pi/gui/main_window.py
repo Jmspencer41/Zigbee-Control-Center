@@ -40,7 +40,7 @@ class MainWindow(QMainWindow):
 
         ###### Title ######
         title_widget = QLabel(Title)
-        title_widget.setFont(QFont('Arial', 20, QFont.Weight.Bold))
+        title_widget.setFont(QFont('Arial', 40, QFont.Weight.Bold))
         title_widget.setAlignment(Qt.AlignmentFlag.AlignCenter)
         title_widget.setStyleSheet("color: #ecf0f1; padding: 20px;")
         main_layout.addWidget(title_widget)
