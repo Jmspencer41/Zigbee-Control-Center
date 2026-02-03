@@ -1,14 +1,12 @@
-import Adafruit_DHT # TODO: sudo pip3 install Adafruit_DHT (on raspberry pi)
+import adafruit_dht
+import board
 import time
 import threading
 
-DHT_SENSOR = Adafruit_DHT.DHT22
-DHT_PIN = 4  
-
 class TempHumidSensor(threading.Thread):
-    def __init__(self, sensor=DHT_SENSOR, pin=DHT_PIN, interval=30):
+    def __init__(self, pin=board.D4, interval=30):
         super().__init__()
-        self.sensor = sensor
+        self.sensor = adafruit_dht.DHT22(pin)
         self.pin = pin
         self.interval = interval
         self.temperature = None
@@ -16,11 +14,16 @@ class TempHumidSensor(threading.Thread):
         self.running = False
         
     def read_temp_humid(self):
-        humidity, temperature = Adafruit_DHT.read_retry(self.sensor, self.pin)
-        if humidity is not None and temperature is not None:
-            return temperature, humidity
-        else:
-            raise RuntimeError("Failed to retrieve data from DHT22")
+        try:
+            temperature = self.sensor.temperature
+            humidity = self.sensor.humidity
+            if humidity is not None and temperature is not None:
+                return temperature, humidity
+            else:
+                raise RuntimeError("Failed to retrieve data from DHT22")
+        except RuntimeError as e:
+            # DHT sensors can occasionally fail to read, this is normal
+            raise e
 
 
     def run(self):
