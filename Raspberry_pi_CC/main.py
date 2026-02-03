@@ -7,8 +7,8 @@ if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
 from PyQt6.QtWidgets import QApplication
-from Raspberry_pi.gui.main_window import MainWindow
-from Raspberry_pi.gui.Functionality.temp_humid_monitor import tempHumidMonitor
+from Raspberry_pi_CC.gui.main_window import MainWindow
+from Raspberry_pi_CC.gui.Functionality.temp_humid_monitor import tempHumidMonitor
 
 def main():
 

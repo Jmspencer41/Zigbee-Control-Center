@@ -1,4 +1,4 @@
-# from Raspberry_pi.temp_humid import TempHumidSensor
+# from Raspberry_pi_CC.temp_humid import TempHumidSensor
 
 # class tempHumidMonitor:
 #     def __init__(self):
@@ -44,7 +44,7 @@ class MockTempHumidSensor(threading.Thread):
 
 # Try to import real sensor, fall back to mock
 try:
-    from Raspberry_pi.temp_humid import TempHumidSensor
+    from Raspberry_pi_CC.temp_humid import TempHumidSensor
     USING_REAL_SENSOR = True
     print("Using real DHT22 sensor")
 except ImportError:
