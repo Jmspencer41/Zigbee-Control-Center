@@ -66,3 +66,12 @@ A **local, unified Zigbee control center** that operates independently of cloud 
 - Error handling for sensor disconnections
 - Responsive UI updates
 
+
+
+## Raspberry Pi Requiresments:
+  - PyQt6
+    - sudo apt 
+  
+
+  - DHT22 Info:
+    - https://medium.com/@zordakal171/dht-22-interfacing-in-raspberry-pi-without-using-library-7ca61e8af4b8
