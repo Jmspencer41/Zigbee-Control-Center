@@ -129,8 +129,11 @@ class EnvironmentLayout(QVBoxLayout):
         self.addWidget(envi_area_widget)
 
     def update_sensor_values(self):
-        temp = self.temp_humid_monitor.get_temperature()
-        humid = self.temp_humid_monitor.get_humidity()
+        # temp = self.temp_humid_monitor.get_temperature()
+        # humid = self.temp_humid_monitor.get_humidity()
+
+        temp = 22.5  # Placeholder value
+        humid = 55.0  # Placeholder value
         
         if temp is not None:
             self.temp_label.setText(f"{temp:.1f}°C")

@@ -3,11 +3,11 @@ set -e
 
 > TODO.txt
 
-echo "TODOs in this directory" > TODO.txt
-echo "========================" >> TODO.txt
+echo "TODO in this project" > TODO.txt
+echo "=====================" >> TODO.txt
 echo "" >> TODO.txt
 
-for file in *.py; do
+for file in $(find . -name "*.py" -type f); do
     [ -e "$file" ] || continue
     
     if grep -q 'TODO' "$file"; then

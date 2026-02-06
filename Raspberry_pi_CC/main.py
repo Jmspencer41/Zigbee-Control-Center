@@ -6,9 +6,11 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
+### End of sys.path adjustment ###
+
 from PyQt6.QtWidgets import QApplication
-from Raspberry_pi_CC.gui.main_window import MainWindow
-#from Raspberry_pi_CC.gui.Functionality.temp_humid_monitor import tempHumidMonitor
+from gui.main_window import MainWindow
+# TODO: from gui.Functionality.dht22.py import TempHumidSensor Not sure if needed here.
 
 def main():
 

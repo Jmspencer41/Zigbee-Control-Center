@@ -7,10 +7,8 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QFont
 
 from .top_layer_buttons import TopLayerButtons
-from .device_list import DeviceListLayout
-from .environment import EnvironmentLayout
-
-### TODO: Make sizes of icons, buttons, fonts dynamic based on screen size ###
+from .widgets.device_panel import DeviceListLayout
+from .widgets.environment_panel import EnvironmentLayout
 
 class MainWindow(QMainWindow):    
     def __init__(self, temp_humid_monitor):

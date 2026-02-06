@@ -1,6 +1,8 @@
-from Raspberry_pi_CC.temp_humid import TempHumidSensor
+from Raspberry_pi_CC.sensors.dht22 import TempHumidSensor
+# TODO: from Raspberry_pi_CC.sensors.ld2410c import LidarSensor 
+# TODO: from Raspberry_pi_CC.sensors.camera import CameraSensor 
 
-class tempHumidMonitor:
+class deviceManager:
     def __init__(self):
         self.temperature = None
         self.humidity = None
