@@ -46,11 +46,14 @@ class MainWindow(QMainWindow):
 
         main_layout.addSpacing(20)
 
+
+        ###### settings, device pairing, and logs ######
         top_layer_buttons = TopLayerButtons()
         main_layout.addLayout(top_layer_buttons)
 
         main_layout.addSpacing(30)
 
+        ###### Devices and Environment Area ######
         Devices_layout = QHBoxLayout()
         Devices_layout.setSpacing(15)
         device_list_layout = DeviceListLayout()
