@@ -17,4 +17,3 @@ class tempHumidMonitor:
 
     def stop(self):
         self.sensor_thread.stop()
-

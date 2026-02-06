@@ -8,19 +8,20 @@ if project_root not in sys.path:
 
 from PyQt6.QtWidgets import QApplication
 from Raspberry_pi_CC.gui.main_window import MainWindow
-from Raspberry_pi_CC.gui.Functionality.temp_humid_monitor import tempHumidMonitor
+#from Raspberry_pi_CC.gui.Functionality.temp_humid_monitor import tempHumidMonitor
 
 def main():
 
     app = QApplication(sys.argv)
-    temp_humid_monitor = tempHumidMonitor()
-    window = MainWindow(temp_humid_monitor)
+    #temp_humid_monitor = tempHumidMonitor()
+    window = MainWindow(None)
     window.show()
 
     try:
         sys.exit(app.exec())
     finally:
-        temp_humid_monitor.stop() 
+        #temp_humid_monitor.stop() 
+        pass # Stop the temp/humid monitor thread on exit
 
 if __name__ == '__main__':
     main()

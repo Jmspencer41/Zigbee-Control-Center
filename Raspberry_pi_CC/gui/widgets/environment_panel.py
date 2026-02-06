@@ -28,9 +28,10 @@ class EnvironmentLayout(QVBoxLayout):
         temp_label_title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         temp_layout.addWidget(temp_label_title)
 
-        temp = temp_humid_monitor.get_temperature()
-        humid = temp_humid_monitor.get_humidity()
-
+        # temp = temp_humid_monitor.get_temperature()
+        # humid = temp_humid_monitor.get_humidity()
+        temp = 22.5  # Placeholder value
+        humid = 55.0  # Placeholder value
         temp_label = QLabel(f"{temp}°C")
         temp_label.setFont(QFont('Arial', 40))
         temp_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
