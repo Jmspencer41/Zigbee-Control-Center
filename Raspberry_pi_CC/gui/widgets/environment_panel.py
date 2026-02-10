@@ -5,8 +5,11 @@ from PyQt6.QtGui import (QFont, QIcon)
 from PyQt6.QtCore import (Qt, QSize, QTimer)
 
 class EnvironmentLayout(QVBoxLayout):
-    def __init__(self, temp_humid_monitor):
+    def __init__(self, sensor):
         super().__init__()
+
+        self.sensor = sensor  # Store reference to the sensor
+
         
         SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -28,11 +31,8 @@ class EnvironmentLayout(QVBoxLayout):
         temp_label_title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         temp_layout.addWidget(temp_label_title)
 
-        # temp = temp_humid_monitor.get_temperature()
-        # humid = temp_humid_monitor.get_humidity()
-        temp = 22.5  # Placeholder value
-        humid = 55.0  # Placeholder value
-        temp_label = QLabel(f"{temp}°C")
+
+        temp_label = QLabel("---°C")
         temp_label.setFont(QFont('Arial', 40))
         temp_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         temp_label.setStyleSheet("""
@@ -58,7 +58,7 @@ class EnvironmentLayout(QVBoxLayout):
         humid_label_title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         humid_layout.addWidget(humid_label_title)
         
-        humid_label = QLabel(f"{humid}%")
+        humid_label = QLabel("---%")
         humid_label.setFont(QFont('Arial', 40))
         humid_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         humid_label.setStyleSheet("""
@@ -76,7 +76,6 @@ class EnvironmentLayout(QVBoxLayout):
         # Store reference for updates later
         self.temp_label = temp_label
         self.humid_label = humid_label
-        self.temp_humid_monitor = temp_humid_monitor
         
         temp_humid_layout.addLayout(humid_layout)
         
@@ -87,12 +86,17 @@ class EnvironmentLayout(QVBoxLayout):
         ### BOTTOM HALF: Lights Button ###
         Lights_button = QPushButton()
         
-        icon_path = os.path.join(SCRIPT_DIR, 'icons', 'light_on.png')
-        Lights_button.setIcon(QIcon(icon_path))
+        ### TODO: Dynamically set icon and style based on actual light status from device manager when implemented ###
+        # icon_path = os.path.join(SCRIPT_DIR, 'icons', 'light_on.png')
+        # if os.path.exists(icon_path):
+        Lights_button.setIcon(QIcon('styles/icons/light_on.png')) # TODO: WHY ICON NO WORK!
         Lights_button.setIconSize(QSize(120, 120))
         Lights_button.setFont(QFont('Arial', 20))
 
-        if True:  # TODO: Implement light status check
+        # TODO: Check actual light status
+        light_is_on = True
+
+        if light_is_on:
             Lights_button.setStyleSheet("""
             QPushButton {
                 background-color: #f1c40f;
@@ -122,18 +126,16 @@ class EnvironmentLayout(QVBoxLayout):
         envi_area_layout.addWidget(Lights_button, alignment=Qt.AlignmentFlag.AlignCenter)
         envi_area_layout.setStretch(1, 1)  # Bottom half gets 50%
 
-        self.timer = QTimer()
-        self.timer.timeout.connect(self.update_sensor_values)
-        self.timer.start(5000)  # Update every 5 seconds
+        ### === THE CRITICAL CONNECTION === ###
+        # Connect the sensor's data_updated signal to our update method
+        # When the sensor emits new data, update_sensor_values will be called automatically
+        self.sensor.data_updated.connect(self.update_sensor_values)
+        
+        print("EnvironmentPanel connected to sensor signals")
     
         self.addWidget(envi_area_widget)
 
-    def update_sensor_values(self):
-        # temp = self.temp_humid_monitor.get_temperature()
-        # humid = self.temp_humid_monitor.get_humidity()
-
-        temp = 22.5  # Placeholder value
-        humid = 55.0  # Placeholder value
+    def update_sensor_values(self, temp, humid):
         
         if temp is not None:
             self.temp_label.setText(f"{temp:.1f}°C")

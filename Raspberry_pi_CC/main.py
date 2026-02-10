@@ -10,20 +10,14 @@ if project_root not in sys.path:
 
 from PyQt6.QtWidgets import QApplication
 from gui.main_window import MainWindow
-# TODO: from gui.Functionality.dht22.py import TempHumidSensor Not sure if needed here.
+# TODO: from sensors.sht41.py import sht41 ###Not sure if needed here.
 
 def main():
 
     app = QApplication(sys.argv)
-    #temp_humid_monitor = tempHumidMonitor()
-    window = MainWindow(None)
+    window = MainWindow()
     window.show()
-
-    try:
-        sys.exit(app.exec())
-    finally:
-        #temp_humid_monitor.stop() 
-        pass # Stop the temp/humid monitor thread on exit
-
+    sys.exit(app.exec())
+    
 if __name__ == '__main__':
     main()
