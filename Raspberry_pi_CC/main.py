@@ -15,9 +15,16 @@ from gui.main_window import MainWindow
 def main():
 
     app = QApplication(sys.argv)
+
+    ### TODO: Dynamically get screen resolution and set window size accordingly. For now, we just print it to verify. ###
+    screen = app.primaryScreen()
+    width = screen.geometry().width()
+    height = screen.geometry().height()
+    print(f"Window resolution: {width}x{height}")
+
     window = MainWindow()
     window.show()
     sys.exit(app.exec())
-    
+
 if __name__ == '__main__':
     main()
