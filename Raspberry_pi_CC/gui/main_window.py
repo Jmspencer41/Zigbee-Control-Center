@@ -17,6 +17,7 @@ class MainWindow(QMainWindow):
 
         # Initialize the device manager - this starts all sensor threads
         self.device_manager = deviceManager()
+
         # Build the UI
         self.init_ui()
         
@@ -26,8 +27,13 @@ class MainWindow(QMainWindow):
     def init_ui(self):
         
 
-        Title = "Raspberry Pi Zigbee Controller" #TODO Make Dynamic from user input.
+        screen = self.screen()
+        height = screen.geometry().height()
 
+        titleSize = int(height * 0.04)
+        spacingSize = int(height * 0.03)
+
+        Title = "Raspberry Pi Zigbee Controller" #TODO Make Dynamic from user input.
 
         self.setWindowTitle(Title)
         self.showFullScreen()
@@ -43,29 +49,27 @@ class MainWindow(QMainWindow):
 
         ###### Title ######
         title_widget = QLabel(Title)
-        title_widget.setFont(QFont('Arial', 40, QFont.Weight.Bold))
+        title_widget.setFont(QFont('Arial', titleSize, QFont.Weight.Bold))
         title_widget.setAlignment(Qt.AlignmentFlag.AlignCenter)
         title_widget.setStyleSheet("color: #ecf0f1; padding: 20px;")
         main_layout.addWidget(title_widget)
-
-        main_layout.addSpacing(20)
-
+        main_layout.addSpacing(spacingSize)
 
         ###### settings, device pairing, and logs ######
-        top_layer_buttons = TopLayerButtons()
+        top_layer_buttons = TopLayerButtons(height)
         main_layout.addLayout(top_layer_buttons)
 
-        main_layout.addSpacing(30)
+        main_layout.addSpacing(spacingSize)
 
         ###### Devices and Environment Area ######
         Devices_layout = QHBoxLayout()
-        Devices_layout.setSpacing(15)
-        device_list_layout = DeviceListLayout()
+        Devices_layout.setSpacing(int(height * 0.015))
+        device_list_layout = DeviceListLayout(height)
         
         # Environment panel - pass the sensor from device manager
         # The sensor parameter allows the environment panel to connect to sensor signals
         sensor = self.device_manager.get_sensor()
-        envi_area_layout = EnvironmentLayout(sensor)
+        envi_area_layout = EnvironmentLayout(sensor, height)
         
         Devices_layout.addLayout(device_list_layout)
         Devices_layout.setStretch(Devices_layout.count() - 1, 1)  # device_list_layout gets 50%

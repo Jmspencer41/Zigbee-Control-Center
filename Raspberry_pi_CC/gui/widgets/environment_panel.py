@@ -2,16 +2,17 @@ import os
 
 from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton)
 from PyQt6.QtGui import (QFont, QIcon)
-from PyQt6.QtCore import (Qt, QSize, QTimer)
+from PyQt6.QtCore import (Qt, QSize)
 
 class EnvironmentLayout(QVBoxLayout):
-    def __init__(self, sensor):
+    def __init__(self, sensor, screen_height):
         super().__init__()
 
         self.sensor = sensor  # Store reference to the sensor
 
+        font = QFont('Arial', int(screen_height * 0.04), QFont.Weight.Bold)
         
-        SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+        # SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
         envi_area_widget = QWidget()
         envi_area_widget.setStyleSheet("background-color: #99ddff; border-radius: 15px;")  
@@ -26,22 +27,26 @@ class EnvironmentLayout(QVBoxLayout):
         temp_layout.addStretch()
         
         temp_label_title = QLabel("Temperature")
-        temp_label_title.setFont(QFont('Arial', 40, QFont.Weight.Bold))
+        temp_label_title.setFont(font)
         temp_label_title.setStyleSheet("color: #2c3e50;")
         temp_label_title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         temp_layout.addWidget(temp_label_title)
 
 
         temp_label = QLabel("---°C")
-        temp_label.setFont(QFont('Arial', 40))
+        temp_label.setFont(font)
         temp_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        temp_label.setStyleSheet("""
+
+        border_radius = int(screen_height * 0.05)
+        padding = int(screen_height * 0.02)
+        min_size = int(screen_height * 0.10)
+        temp_label.setStyleSheet(f"""
             color: white;
             background-color: #e74c3c;
-            border-radius: 50px;
-            padding: 20px;
-            min-width: 100px;
-            min-height: 100px;
+            border-radius: {border_radius}px;
+            padding: {padding}px;
+            min-width: {min_size}px;
+            min-height: {min_size}px;
             border: 2px solid rgba(0, 0, 0, 0.2);
         """)
         temp_layout.addWidget(temp_label)
@@ -53,21 +58,21 @@ class EnvironmentLayout(QVBoxLayout):
         humid_layout.addStretch()
         
         humid_label_title = QLabel("Humidity")
-        humid_label_title.setFont(QFont('Arial', 40, QFont.Weight.Bold))
+        humid_label_title.setFont(font)
         humid_label_title.setStyleSheet("color: #2c3e50;")
         humid_label_title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         humid_layout.addWidget(humid_label_title)
         
         humid_label = QLabel("---%")
-        humid_label.setFont(QFont('Arial', 40))
+        humid_label.setFont(font)
         humid_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        humid_label.setStyleSheet("""
+        humid_label.setStyleSheet(f"""
             color: white;
             background-color: #3498db;
-            border-radius: 50px;
-            padding: 20px;
-            min-width: 100px;
-            min-height: 100px;
+            border-radius: {border_radius}px;
+            padding: {padding}px;
+            min-width: {min_size}px;
+            min-height: {min_size}px;
             border: 2px solid rgba(0, 0, 0, 0.2);
         """)
         humid_layout.addWidget(humid_label)
@@ -89,39 +94,42 @@ class EnvironmentLayout(QVBoxLayout):
         ### TODO: Dynamically set icon and style based on actual light status from device manager when implemented ###
         # icon_path = os.path.join(SCRIPT_DIR, 'icons', 'light_on.png')
         # if os.path.exists(icon_path):
+
+        icon_size = QSize(int(screen_height * 0.12), int(screen_height * 0.12))
         Lights_button.setIcon(QIcon('styles/icons/light_on.png')) # TODO: WHY ICON NO WORK!
-        Lights_button.setIconSize(QSize(120, 120))
-        Lights_button.setFont(QFont('Arial', 20))
+        Lights_button.setIconSize(icon_size)
 
         # TODO: Check actual light status
         light_is_on = True
+        light_button_BR = int(screen_height * 0.10)
+        light_button_size = int(screen_height * 0.25)
 
         if light_is_on:
-            Lights_button.setStyleSheet("""
-            QPushButton {
+            Lights_button.setStyleSheet(f"""
+            QPushButton {{
                 background-color: #f1c40f;
                 color: #2c3e50;
-                border-radius: 100px;
-                min-width: 250px;
-                min-height: 250px;
+                border-radius: {light_button_BR}px;
+                min-width: {light_button_size}px;
+                min-height: {light_button_size}px;
                 border: 2px solid rgba(0, 0, 0, 0.2);                        
-            }
-            QPushButton:pressed {
+            }}
+            QPushButton:pressed {{
                 background-color: #b7950b;
-            }
+            }}
         """)        
         else:
-            Lights_button.setStyleSheet("""
-            QPushButton {
+            Lights_button.setStyleSheet(f"""
+            QPushButton {{
                 background-color: #00004d;
                 color: #2c3e50;
-                border-radius: 100px;
-                min-width: 200px;
-                min-height: 200px;
-            }
-            QPushButton:pressed {
+                border-radius: {light_button_BR}px;
+                min-width: {light_button_size}px;
+                min-height: {light_button_size}px;
+            }}
+            QPushButton:pressed {{
                 background-color: #b7950b;
-            }
+            }}
         """)
         envi_area_layout.addWidget(Lights_button, alignment=Qt.AlignmentFlag.AlignCenter)
         envi_area_layout.setStretch(1, 1)  # Bottom half gets 50%
