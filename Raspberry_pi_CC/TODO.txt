@@ -2,12 +2,12 @@ TODO in this project
 =====================
 
 File: ./gui/top_layer_buttons.py
-11:###### TODO: Add buttons and functionality below ######
+13:###### TODO: Add buttons and functionality below ######
 
 File: ./gui/main_window.py
-23:        # TODO: Hide the mouse cursor
-29:        Title = "Raspberry Pi Zigbee Controller" #TODO Make Dynamic from user input.
-79:    ### TODO: Temperary - Escape key to exit full screen ###
+24:        # TODO: Hide the mouse cursor
+36:        Title = "Raspberry Pi Zigbee Controller" #TODO Make Dynamic from user input.
+83:    ### TODO: Temperary - Escape key to exit full screen ###
 
 File: ./gui/dialogs/pair_devices_dialog.py
 5:### TODO: Fill in Pairing content ###
@@ -22,12 +22,13 @@ File: ./gui/dialogs/settings_dialog.py
 49:        # TODO: Add your pairing content here
 
 File: ./gui/widgets/environment_panel.py
-89:        ### TODO: Dynamically set icon and style based on actual light status from device manager when implemented ###
-96:        # TODO: Check actual light status
+94:        ### TODO: Dynamically set icon and style based on actual light status from device manager when implemented ###
+99:        Lights_button.setIcon(QIcon('styles/icons/light_on.png')) # TODO: WHY ICON NO WORK!
+102:        # TODO: Check actual light status
 
 File: ./gui/widgets/device_panel.py
-18:        # Example device buttons TODO: Make dynamic from actual devices
-31:        device_status = True #TODO: Implement actual device status check
+20:        # Example device buttons TODO: Make dynamic from actual devices
+33:        device_status = True #TODO: Implement actual device status check
 
 File: ./main.py
 13:# TODO: from sensors.sht41.py import sht41 ###Not sure if needed here.
@@ -45,7 +46,4 @@ File: ./sensors/sht41.py
 25:        #TODO: self.pi = pigpio.pi()  # Initialize pigpio on Raspberry Pi
 37:        ### TODO: Implement actual sensor reading logic here when running on Raspberry Pi ###
 52:        ### TODO: Implement actual sensor shutdown and cleanup here when running on Raspberry Pi ###
-
-File: ./tests/dht22_tester.py
-1:### TODO: Implement random number tester for DHT22 sensor data ###
 

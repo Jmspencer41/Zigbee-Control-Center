@@ -10,7 +10,6 @@ if project_root not in sys.path:
 
 from PyQt6.QtWidgets import QApplication
 from gui.main_window import MainWindow
-# TODO: from sensors.sht41.py import sht41 ###Not sure if needed here.
 
 def main():
 
