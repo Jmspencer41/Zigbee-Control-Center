@@ -8,9 +8,6 @@ class TopLayerButtons(QVBoxLayout):
     def __init__(self, screen_height):
         super().__init__()
 
-
-
-###### TODO: Add buttons and functionality below ######
         Button_Layout = QHBoxLayout()
         Button_Layout.setSpacing(int(screen_height * 0.02))
 

@@ -12,7 +12,7 @@ class EnvironmentLayout(QVBoxLayout):
 
         font = QFont('Arial', int(screen_height * 0.04), QFont.Weight.Bold)
         
-        # SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+        SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
         envi_area_widget = QWidget()
         envi_area_widget.setStyleSheet("background-color: #99ddff; border-radius: 15px;")  
@@ -92,12 +92,12 @@ class EnvironmentLayout(QVBoxLayout):
         Lights_button = QPushButton()
         
         ### TODO: Dynamically set icon and style based on actual light status from device manager when implemented ###
-        # icon_path = os.path.join(SCRIPT_DIR, 'icons', 'light_on.png')
-        # if os.path.exists(icon_path):
+        icon_path = os.path.join(SCRIPT_DIR, '..', 'styles', 'icons', 'light_on.png')
+        if os.path.exists(icon_path):
 
-        icon_size = QSize(int(screen_height * 0.12), int(screen_height * 0.12))
-        Lights_button.setIcon(QIcon('styles/icons/light_on.png')) # TODO: WHY ICON NO WORK!
-        Lights_button.setIconSize(icon_size)
+            icon_size = QSize(int(screen_height * 0.12), int(screen_height * 0.12))
+            Lights_button.setIcon(QIcon(icon_path)) # TODO: WHY ICON NO WORK!
+            Lights_button.setIconSize(icon_size)
 
         # TODO: Check actual light status
         light_is_on = True
