@@ -8,7 +8,7 @@ class EnvironmentLayout(QVBoxLayout):
     def __init__(self, sensor, screen_height):
         super().__init__()
 
-        self.sensor = sensor  # Store reference to the sensor
+        self.sensor = sensor 
 
         font = QFont('Arial', int(screen_height * 0.04), QFont.Weight.Bold)
         
@@ -86,7 +86,8 @@ class EnvironmentLayout(QVBoxLayout):
         
         # Add temp/humid to main layout
         envi_area_layout.addLayout(temp_humid_layout)
-        envi_area_layout.setStretch(0, 1)  # Top half gets 50%
+        envi_area_layout.setStretch(0, 1)  # Top half gets 50%\
+        
         
         ### BOTTOM HALF: Lights Button ###
         Lights_button = QPushButton()
