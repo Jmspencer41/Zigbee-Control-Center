@@ -1,9 +1,6 @@
 TODO in this project
 =====================
 
-File: ./gui/top_layer_buttons.py
-13:###### TODO: Add buttons and functionality below ######
-
 File: ./gui/main_window.py
 24:        # TODO: Hide the mouse cursor
 36:        Title = "Raspberry Pi Zigbee Controller" #TODO Make Dynamic from user input.
@@ -11,27 +8,24 @@ File: ./gui/main_window.py
 
 File: ./gui/dialogs/pair_devices_dialog.py
 5:### TODO: Fill in Pairing content ###
-49:        # TODO: Add your pairing content here
+40:        # TODO: Add your pairing content here
 
 File: ./gui/dialogs/logs_dialog.py
 5:##TODO: Fill in Logs content###
-49:        # TODO: Add your pairing content here
+38:        # TODO: Add your pairing content here
 
 File: ./gui/dialogs/settings_dialog.py
 5:###TODO: Fill in settings content###
-49:        # TODO: Add your pairing content here
+39:        # TODO: Add your pairing content here
 
 File: ./gui/widgets/environment_panel.py
-94:        ### TODO: Dynamically set icon and style based on actual light status from device manager when implemented ###
-99:        Lights_button.setIcon(QIcon('styles/icons/light_on.png')) # TODO: WHY ICON NO WORK!
-102:        # TODO: Check actual light status
+95:        ### TODO: Dynamically set icon and style based on actual light status from device manager when implemented ###
+100:            Lights_button.setIcon(QIcon(icon_path)) # TODO: WHY ICON NO WORK!
+103:        # TODO: Check actual light status
 
 File: ./gui/widgets/device_panel.py
 20:        # Example device buttons TODO: Make dynamic from actual devices
 33:        device_status = True #TODO: Implement actual device status check
-
-File: ./main.py
-13:# TODO: from sensors.sht41.py import sht41 ###Not sure if needed here.
 
 File: ./core/mqtt_manager.py
 1:### TODO: Implement MQTT functionality ###'''
@@ -41,9 +35,6 @@ File: ./core/device_manager.py
 4:# TODO: from Raspberry_pi_CC.sensors.camera import CameraSensor 
 41:        # TODO: Stop other sensors when added
 
-File: ./sensors/sht41.py
-3:# TODO: import pigpio  # Uncomment when running on Raspberry Pi
-25:        #TODO: self.pi = pigpio.pi()  # Initialize pigpio on Raspberry Pi
-37:        ### TODO: Implement actual sensor reading logic here when running on Raspberry Pi ###
-52:        ### TODO: Implement actual sensor shutdown and cleanup here when running on Raspberry Pi ###
+File: ./sensors/ld2410c.py
+11:    def __init__(self, gpio_pin, baud_rate=115200): #TODO: define which GPIO pin to use for serial communication
 
