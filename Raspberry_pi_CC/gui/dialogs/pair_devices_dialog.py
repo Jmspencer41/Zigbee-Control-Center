@@ -10,19 +10,10 @@ class PairDevicesDialog(QDialog):
         self.init_ui()
     
     def init_ui(self):
-        # Get screen size and set dialog to 80%
-        screen = self.screen().availableGeometry()
-        width = int(screen.width() * 0.8)
-        height = int(screen.height() * 0.8)
         
         self.setWindowTitle("Pair Devices")
-        self.resize(width, height)
-        
-        # Center the dialog on screen
-        self.move(
-            (screen.width() - width) // 2,
-            (screen.height() - height) // 2
-        )
+        self.showFullScreen()
+
         
         # Add border styling
         self.setStyleSheet("""
