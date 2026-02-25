@@ -62,6 +62,8 @@ This project creates a **local, self-hosted smart home control center** using a 
 - ✅ Multi-threaded sensor reading with QThread
 - ✅ Local data storage capability
 
+---
+
 ### Success Criteria Met
 - ✅ All implemented sensors provide accurate readings
 - ✅ GUI displays sensor data clearly in real-time
@@ -79,8 +81,10 @@ This project creates a **local, self-hosted smart home control center** using a 
 - **Error Handling** - Graceful failure modes for sensor disconnection
 - **Library Integration** - Successfully combined pigpio, PyQt6, and serial communication
 
+---
+
 ### Time Investment & Learning
-> This sprint took longer than expected due to the learning curve of PyQt6 and embedded systems libraries, but a strong, stable foundation is now in place for future development.
+> This gui development took longer than expected due to the learning curve of PyQt6 and embedded systems libraries, but a strong, stable foundation is now in place for future development.
 
 **Key Skills Developed:**
 - PyQt6 signal/slot architecture
