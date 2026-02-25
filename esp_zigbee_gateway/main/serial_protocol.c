@@ -13,6 +13,7 @@
 #include <string.h>
 #include "serial_protocol.h"
 #include "esp_zigbee_core.h"
+#include "esp_zigbee_gateway.h"  /* For GATEWAY_ROOM_NAME, GATEWAY_PAN_ID, GATEWAY_CHANNEL */
 
 /* ── Shared JSON build buffer ─────────────────────────────────────────────────
  * We build JSON strings here before writing to serial.
@@ -49,12 +50,18 @@ void serial_send_gateway_ready(void)
     uint8_t  channel    = esp_zb_get_current_channel();
     uint16_t short_addr = esp_zb_get_short_address(); /* Always 0x0000 for coordinator */
 
+    /*
+     * GATEWAY_ROOM_NAME is defined in esp_zigbee_gateway.h.
+     * The Pi uses this to label the connection in the GUI and in future
+     * MQTT messages to Home Assistant (topic prefix, device name, etc.)
+     */
     snprintf(s_serial_buf, SERIAL_BUF_SIZE,
              "{\"cmd\":\"GATEWAY_READY\","
+             "\"room\":\"%s\","
              "\"pan_id\":\"0x%04X\","
              "\"channel\":%d,"
              "\"addr\":\"0x%04X\"}",
-             pan_id, channel, short_addr);
+             GATEWAY_ROOM_NAME, pan_id, channel, short_addr);
 
     serial_send_raw(s_serial_buf);
 }

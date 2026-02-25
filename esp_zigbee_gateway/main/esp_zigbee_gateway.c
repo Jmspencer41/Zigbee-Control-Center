@@ -250,9 +250,33 @@ static void esp_zb_task(void *pvParameters)
     esp_zb_cfg_t zb_nwk_cfg = ESP_ZB_ZC_CONFIG();
     esp_zb_init(&zb_nwk_cfg);
 
-    /* Restrict the network to channel 13 (defined in esp_zigbee_gateway.h).
-     * You can widen this mask to let the stack auto-select the best channel. */
+    /*
+     * Set the channel for this room unit.
+     * GATEWAY_CHANNEL is defined in esp_zigbee_gateway.h and converted to a
+     * bitmask by ESP_ZB_PRIMARY_CHANNEL_MASK. Each room should use a different
+     * channel to avoid RF interference between neighbouring coordinators.
+     *
+     * Preferred channels (sit between common Wi-Fi channels 1, 6, 11):
+     *   15, 20, 25
+     */
     esp_zb_set_primary_network_channel_set(ESP_ZB_PRIMARY_CHANNEL_MASK);
+
+    /*
+     * Set a fixed PAN ID for this room unit.
+     * GATEWAY_PAN_ID is defined in esp_zigbee_gateway.h.
+     *
+     * This must be called BEFORE esp_zb_start(). Setting it here ensures
+     * this coordinator always uses the same PAN ID regardless of what other
+     * networks are nearby, making multi-room deployments predictable.
+     *
+     * Note: if the device reboots and NVS already has a saved network config,
+     * the stack will use the saved PAN ID. Call esp_zb_start(true) once to
+     * factory-reset if you change GATEWAY_PAN_ID after initial deployment.
+     */
+    esp_zb_set_pan_id(GATEWAY_PAN_ID);
+
+    ESP_LOGI(TAG, "Room: %s  |  PAN ID: 0x%04X  |  Channel: %d",
+             GATEWAY_ROOM_NAME, GATEWAY_PAN_ID, GATEWAY_CHANNEL);
 
     /*
      * Register the coordinator's own endpoint.
