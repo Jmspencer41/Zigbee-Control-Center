@@ -1,0 +1,224 @@
+Raspberry_pi_CC/
+│
+├── main.py
+│   └── Entry point for the application
+│       • Initializes PyQt6 QApplication
+│       • Creates and shows MainWindow
+│       • Starts the event loop
+│
+├── gui/
+│   ├── main_window.py
+│   │   └── Root Qt window container
+│   │       • Creates overall window layout
+│   │       • Instantiates DeviceManager (singleton)
+│   │       • Creates and manages all panels/widgets
+│   │       • Connects to DeviceManager signals for updates
+│   │       • Handles window close events and cleanup
+│   │
+│   ├── panels/
+│   │   ├── environment_panel.py
+│   │   │   └── Displays environmental sensor data
+│   │   │       • Shows temperature from SHT41
+│   │   │       • Shows humidity from SHT41
+│   │   │       • Connects to TempHumidSensor signals
+│   │   │       • Updates UI labels with real-time values
+│   │   │
+│   │   ├── devices_panel.py
+│   │   │   └── Displays all Zigbee end devices
+│   │   │       • Dynamically creates device buttons/cards
+│   │   │       • Shows device status (on/off, brightness, etc.)
+│   │   │       • Handles device interaction
+│   │   │       • Connects to DeviceManager.device_added signal
+│   │   │       • Connects to DeviceManager.device_state_changed signal
+│   │   │
+│   │   ├── pairing_panel.py
+│   │   │   └── Manages Zigbee device pairing
+│   │   │       • Open/close pairing window button
+│   │   │       • Shows pairing countdown timer
+│   │   │       • Displays list of devices available to pair
+│   │   │       • Connects to DeviceManager.pairing_status_changed
+│   │   │
+│   │   └── gateway_status_panel.py
+│   │       └── Shows Zigbee coordinator status
+│   │           • Connection status (Connected/Disconnected)
+│   │           • PAN ID (Personal Area Network ID)
+│   │           • Channel number
+│   │           • Coordinator address
+│   │           • Connects to DeviceManager.gateway_connection_changed
+│   │
+│   └── widgets/
+│       ├── device_card.py (if used)
+│       │   └── Reusable widget for displaying a single device
+│       │       • Shows device name/address
+│       │       • Renders control buttons (on/off, brightness slider)
+│       │       • Emits control commands back to DeviceManager
+│       │
+│       └── [other custom widgets]
+│           └── Shared UI components used across panels
+│
+├── core/
+│   ├── device_manager.py ⭐ **THE CENTRAL HUB**
+│   │   └── Model/Controller - bridges hardware and GUI
+│   │       • Owns and manages ZigbeeGateway thread
+│   │       • Owns and manages TempHumidSensor thread
+│   │       • Maintains registry of all Zigbee devices (DeviceModel objects)
+│   │       • Translates ZigbeeGateway signals into GUI signals
+│   │       • Provides send-command interface to GUI
+│   │       • Emits signals: device_added, device_state_changed, 
+│   │         gateway_connection_changed, pairing_status_changed
+│   │       • Public methods for GUI:
+│   │         - get_all_devices()
+│   │         - get_device(short_addr)
+│   │         - open_pairing(duration)
+│   │         - close_pairing()
+│   │         - set_device_attribute(...) [send commands to devices]
+│   │         - get_temperature()
+│   │         - get_humidity()
+│   │         - stop()
+│   │
+│   └── [future modules]
+│       └── Other core logic (e.g., automation, scheduling, logging)
+│
+├── sensors/
+│   ├── sht41.py
+│   │   └── Temperature/Humidity sensor interface (SHT41)
+│   │       • Extends QThread for background reading
+│   │       • I2C communication via pigpio
+│   │       • CRC-8 checksum validation
+│   │       • Emits data_updated signal with (temp, humidity)
+│   │       • Public methods:
+│   │         - run() [main thread loop]
+│   │         - stop() [cleanup]
+│   │         - get_latest_reading() [get current values]
+│   │
+│   ├── ld2410c.py
+│   │   └── Presence detection sensor interface (LD2410C mmWave)
+│   │       • UART serial communication via pigpio
+│   │       • Presence detection parsing
+│   │       • Updates light_on variable based on detection
+│   │       • [Currently in progress - not fully integrated]
+│   │
+│   └── [future sensors]
+│       ├── pi_camera.py
+│       │   └── Pi Camera Module v2 integration
+│       │
+│       └── [other sensor interfaces]
+│
+└── zigbee_gateway.py ⭐ **ZIGBEE NETWORK BRIDGE**
+    └── Handles all Zigbee communication (ZigbeeGateway + DeviceModel)
+        
+        ▼ ZigbeeGateway Class ▼
+        ├── Extends QThread for background serial reading
+        ├── Communicates with ESP32-C6 coordinator via serial (/dev/ttyACM0)
+        ├── Parses incoming serial messages from ESP32
+        ├── Manages device discovery and pairing
+        ├── Sends commands to end devices through coordinator
+        ├── Emits signals:
+        │   • gateway_ready(pan_id, channel, addr)
+        │   • pairing_status_changed(is_open, seconds)
+        │   • device_joined(short_addr, ieee_addr)
+        │   • device_descriptor_received(short_addr, endpoint, cluster_ids)
+        │   • attribute_reported(short_addr, endpoint, cluster, attr, type_str, raw_value)
+        │   • connection_status_changed(is_connected)
+        │
+        └── Public methods (called by DeviceManager):
+            • open_network(duration) [start pairing]
+            • close_network() [stop pairing]
+            • read_attribute(short_addr, endpoint, cluster, attr) [get device state]
+            • set_attribute_from_ui(...) [send command to device]
+            • stop() [cleanup]
+        
+        ▼ DeviceModel Class ▼
+        └── Represents a single Zigbee end device
+            • Stores device address (short_addr, ieee_addr)
+            • Maintains endpoint info and supported clusters
+            • Stores current attribute values (device state)
+            • Converts between Zigbee raw values and UI-friendly values
+            • Methods:
+              • add_endpoint(endpoint, cluster_ids)
+              • update_state(endpoint, cluster, attr, raw_value)
+              • get_state(endpoint, cluster, attr)
+              • get_friendly_name() [device nickname]
+        
+        ▼ CLUSTER_DEFINITIONS ▼
+        └── Static dictionary mapping Zigbee cluster IDs to capabilities
+            • Cluster 6: On/Off (light switches)
+            • Cluster 8: Level Control (brightness 0-254)
+            • Cluster 0x0402: Temperature Measurement
+            • Cluster 0x0405: Relative Humidity
+            • [etc. - defines attributes and conversion functions]
+
+
+KEY DATA FLOW EXAMPLE — Turning on a light:
+
+  1. GUI Button Click
+     ↓
+  2. devices_panel.py calls:
+     device_manager.set_device_attribute("0x1A2B", 1, 6, 0, True)
+     ↓
+  3. DeviceManager._gateway.set_attribute_from_ui(...)
+     ↓
+  4. ZigbeeGateway sends serial command to ESP32-C6:
+     "SET_ATTR 0x1A2B 1 6 0 1"
+     ↓
+  5. ESP32-C6 routes command through Zigbee network to device 0x1A2B
+     ↓
+  6. End device (light) turns on
+     ↓
+  7. Device reports status back via Zigbee → ESP32-C6 → Serial → ZigbeeGateway
+     ↓
+  8. ZigbeeGateway emits attribute_reported signal
+     ↓
+  9. DeviceManager._on_attribute_reported() updates DeviceModel state
+     ↓
+ 10. DeviceManager emits device_state_changed signal
+     ↓
+ 11. GUI devices_panel updates light button to show "ON"
+
+
+KEY DATA FLOW EXAMPLE — Reading Temperature:
+
+  1. SHT41 thread continuously reads I2C sensor
+     ↓
+  2. TempHumidSensor.run() emits data_updated(temp, humidity)
+     ↓
+  3. DeviceManager._on_temp_humid_update() receives signal
+     ↓
+  4. DeviceManager updates self.temperature and self.humidity
+     ↓
+  5. environment_panel.py connected to TempHumidSensor.data_updated signal
+     ↓
+  6. GUI label updated with new values
+
+
+THREADING MODEL:
+
+  Main Thread (Qt Event Loop)
+  │
+  ├─ SHT41 Thread (TempHumidSensor)
+  │  └─ Reads I2C sensor every ~15 seconds
+  │     └─ Emits signals back to main thread
+  │
+  ├─ ZigbeeGateway Thread
+  │  └─ Reads serial port for ESP32 messages
+  │     └─ Parses and emits signals back to main thread
+  │
+  └─ GUI renders based on signals
+
+
+DESIGN PATTERN:
+
+This follows the Model-View-Controller (MVC) pattern:
+
+  MODEL: DeviceManager + DeviceModel + TempHumidSensor
+         (Owns all hardware and device state)
+
+  VIEW:  gui/panels/ + gui/widgets/
+         (Qt widgets that display state)
+
+  CONTROLLER: DeviceManager
+              (Translates user actions into hardware commands)
+
+KEY RULE: The GUI NEVER imports ZigbeeGateway, DeviceModel, or sensor classes directly.
+          It ONLY talks to DeviceManager via signals and method calls.
+          This keeps the GUI decoupled from hardware complexity.

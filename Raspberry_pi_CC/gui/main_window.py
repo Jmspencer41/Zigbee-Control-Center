@@ -9,14 +9,14 @@ from PyQt6.QtGui import QFont
 from .top_layer_buttons import TopLayerButtons
 from .widgets.device_panel import DeviceListLayout
 from .widgets.environment_panel import EnvironmentLayout
-from core.device_manager import deviceManager
+from Raspberry_pi_CC.core.device_manager import DeviceManager
 
 class MainWindow(QMainWindow):    
     def __init__(self):
         super().__init__()
 
         # Initialize the device manager - this starts all sensor threads
-        self.device_manager = deviceManager()
+        self.device_manager = DeviceManager()
 
         # Build the UI
         self.init_ui()

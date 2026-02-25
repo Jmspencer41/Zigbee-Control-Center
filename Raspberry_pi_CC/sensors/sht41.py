@@ -1,5 +1,4 @@
 import time
-import random
 import pigpio  
 from PyQt6.QtCore import QThread, pyqtSignal
 
