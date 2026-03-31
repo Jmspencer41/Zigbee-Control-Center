@@ -21,6 +21,7 @@
  */
 
 #include <string.h>
+#include <stdint.h>
 #include "esp_log.h"
 #include "esp_zigbee_core.h"
 #include "zdo_discovery.h"
@@ -65,22 +66,22 @@ static void simple_desc_cb(esp_zb_zdp_status_t status,
     ESP_LOGI(TAG, "  Profile ID: 0x%04X  Device ID: 0x%04X",
              simple_desc->app_profile_id, simple_desc->app_device_id);
     ESP_LOGI(TAG, "  Server clusters: %d  Client clusters: %d",
-             simple_desc->app_num_in_clusters, simple_desc->app_num_out_clusters);
+             simple_desc->app_input_cluster_count, simple_desc->app_output_cluster_count);
 
     /*
      * app_cluster_list is a flat array laid out as:
      *   [server_cluster_0, server_cluster_1, ..., client_cluster_0, client_cluster_1, ...]
      *
-     * app_num_in_clusters  = number of server clusters (starts at index 0)
-     * app_num_out_clusters = number of client clusters (starts at index app_num_in_clusters)
+     * app_input_cluster_count  = number of server clusters (starts at index 0)
+     * app_output_cluster_count = number of client clusters (starts at index app_input_cluster_count)
      *
-     * We pass just the server clusters (in_clusters) to the Pi.
+     * We pass just the server clusters to the Pi.
      */
-    if (simple_desc->app_num_in_clusters > 0) {
+    if (simple_desc->app_input_cluster_count > 0) {
         serial_send_descriptor(short_addr,
                                simple_desc->endpoint,
                                simple_desc->app_cluster_list,
-                               simple_desc->app_num_in_clusters);
+                               simple_desc->app_input_cluster_count);
     } else {
         ESP_LOGW(TAG, "Device 0x%04X endpoint %d has no server clusters",
                  short_addr, simple_desc->endpoint);
@@ -94,25 +95,19 @@ static void simple_desc_cb(esp_zb_zdp_status_t status,
  * Receives the list of endpoint numbers on the device.
  * Fires a Simple Descriptor Request for each endpoint.
  *
- * Why pass short_addr through user_ctx instead of using the callback's short_addr param?
- * Because the simple_desc callback doesn't receive a short_addr parameter directly —
- * only a user_ctx void*. We need to carry the address from this callback into that one.
- *
- * The cast trick:  (void *)(uintptr_t)short_addr
- *   uint16_t → uintptr_t (widens to pointer size, no truncation on any platform)
- *   uintptr_t → void*    (standard integer-to-pointer conversion)
- * Recover with: (uint16_t)(uintptr_t)user_ctx
- *
- * This avoids heap allocation for a single integer — perfectly safe as long as
- * sizeof(uintptr_t) >= sizeof(uint16_t), which is always true.
+ * The callback signature is: esp_zb_zdo_active_ep_callback_t
+ *   status:   whether the request succeeded
+ *   ep_count: how many endpoints the device has
+ *   ep_id_list: array of endpoint numbers
+ *   user_ctx: user context (we pass NULL and get short_addr from parameter above)
  * ───────────────────────────────────────────────────────────────────────────── */
 static void active_ep_cb(esp_zb_zdp_status_t status,
-                          uint16_t short_addr,
                           uint8_t ep_count,
                           uint8_t *ep_id_list,
                           void *user_ctx)
 {
-    (void)user_ctx; /* Not used here — short_addr comes as a direct parameter */
+    /* Recover the short_addr from user_ctx */
+    uint16_t short_addr = (uint16_t)(uintptr_t)user_ctx;
 
     if (status != ESP_ZB_ZDP_STATUS_SUCCESS) {
         ESP_LOGE(TAG, "Active endpoint request failed for 0x%04X (status: 0x%x)",
@@ -168,8 +163,8 @@ void query_device_descriptor(uint16_t short_addr)
 
     /*
      * Send the request. active_ep_cb will be called automatically by the
-     * Zigbee stack when the device replies. NULL for user_ctx because
-     * active_ep_cb receives short_addr as a direct parameter anyway.
+     * Zigbee stack when the device replies. Pass short_addr through user_ctx
+     * so the callback can use it in subsequent Simple Descriptor requests.
      */
-    esp_zb_zdo_active_ep_req(&req, active_ep_cb, NULL);
+    esp_zb_zdo_active_ep_req(&req, active_ep_cb, (void *)(uintptr_t)short_addr);
 }
