@@ -236,50 +236,40 @@ spacingSize = int(height * 0.03)
 
 ---
 
-## Learning with AI: Topic 1 - IoT Architecture Patterns
+## Learning with AI: Topic 1 - ZigBee and MQTT Communication Protocols
+---
 
-___
 ### What I Learned
-**IoT systems require careful consideration of**:
-- **Message Patterns**: Pub/Sub for scalability vs Request/Response for reliability
-- **Edge Processing**: Local decision-making to reduce latency
-- **Data Flow Design**: Decoupling components through message brokers
-- **Real-time Constraints**: Threading and non-blocking operations
+**Comparing wireless IoT communication protocols**:
+- **ZigBee Protocol**: Low-power mesh networking with complex coordinator setup and extensive library dependencies
+- **MQTT Protocol**: Lightweight pub/sub messaging with simple broker architecture and minimal overhead
+- **Protocol Trade-offs**: ZigBee offers direct device-to-device mesh, MQTT requires central broker but provides flexibility
+- **Real-time Messaging**: Understanding topic-based subscriptions vs device-direct communication models
+
+
+---
+### 
+**Choosing the right communication protocol is fundamentally about understanding your project constraints and timeline.** 
+
+- Switching to MQTT for easier group efforts.
+
 
 ---
 
-### My Interpretation
-Using MQTT in this project taught me that **IoT architecture is fundamentally about managing complexity through abstraction**. Rather than monolithic designs, systems should:
-1. **Decouple Components**: MQTT broker acts as central hub
-2. **Enable Independent Scaling**: New devices just publish to topics
-3. **Maintain State Locally**: Devices don't need central coordination
-4. **Handle Failures Gracefully**: Message replay and reconnection logic
-
-**Real-world Application**: This approach makes the system resilient—if one sensor fails, others continue operating independently.
-
----
-
-## Learning with AI: Topic 2 - PyQt6 Signal/Slot Architecture
+## Learning with AI: Topic 2 - PyQt6 GUI Building for Desktop Applications
 
 ---
 
 ### What I Learned
-**Qt's signal/slot mechanism provides**:
-- **Thread-safe Communication**: Between worker threads and UI
-- **Loose Coupling**: Components don't directly depend on each other
-- **Type Safety**: Compile-time checking of signal/slot connections
-- **Event Propagation**: Elegant cascading of state changes
+**Building responsive desktop GUIs with PyQt6**:
+- **Layout Management**: Responsive design using dynamic calculations based on screen geometry and DPI
+- **Widget Hierarchies**: Organizing complex UIs through parent-child relationships and layout nesting
+- **Event-Driven Architecture**: Signals and slots for decoupled communication between UI components
+- **Styling and Theming**: Custom stylesheets (QSS) for consistent dark themes and professional appearance
 
 ---
 
-### My Interpretation
-The signal/slot pattern in PyQt6 is fundamentally about **separating concerns and enabling reactive programming**. Instead of polling for changes or tightly coupling classes:
-1. **Emit Signals**: When state changes occur
-2. **Connect Slots**: UI elements listen for relevant signals
-3. **Propagate Events**: Changes flow naturally through the system
-4. **Maintain Testability**: Components can be tested independently
-
-**Real-world Application**: This enables me to add new UI panels without modifying DeviceManager—they simply connect to existing signals and respond appropriately.
+**Building production-quality GUIs requires thinking about both aesthetics and architecture.** My experience developing this Raspberry Pi control interface taught me a lot.
 
 ---
 
@@ -328,15 +318,6 @@ The signal/slot pattern in PyQt6 is fundamentally about **separating concerns an
 - **GUI components**: 15+ UI classes for panels and dialogs
 - **Sensor drivers**: Modular sensor interfaces
 - **Configuration**: Centralized settings management
-
----
-
-### Documentation & Presentation
-- ✓ Source code comments and docstrings
-- ✓ README with setup instructions
-- ✓ Project structure documentation
-- ✓ Final MARP presentation (this file)
-- ✓ GitHub repository with commit history
 
 ---
 
