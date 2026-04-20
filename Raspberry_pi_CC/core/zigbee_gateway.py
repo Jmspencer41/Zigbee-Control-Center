@@ -1,25 +1,145 @@
-"""
-zigbee_gateway_patches.py
-
-This file documents the CHANGES to make to your existing zigbee_gateway.py.
-It's not a standalone file — apply these changes to your existing code.
-
-── SUMMARY OF CHANGES ─────────────────────────────────────────────────────────
-
-1. Add a new signal:  config_requested
-2. Add a new method:  send_configure()
-3. Update _parse_message() to handle WAITING_FOR_CONFIG
-
-Below is the complete updated ZigbeeGateway class with all changes marked.
-Replace your existing ZigbeeGateway class with this one.
-"""
-
 import json
 import threading
 import time
 import serial
 from PyQt6.QtCore import QThread, pyqtSignal
 
+
+# ── CLUSTER_DEFINITIONS ────────────────────────────────────────────────────────
+# Maps ZCL cluster/attr IDs to names and types.
+# device_manager.py imports this to resolve capability names from ATTR_REPORT messages.
+
+CLUSTER_DEFINITIONS = {
+    0x0006: {
+        "name": "On/Off Switch",
+        "attributes": {
+            0x0000: {
+                "name":     "on_off",
+                "type":     "bool",
+                "writable": True,
+                "scale":    1,
+                "unit":     "",
+            }
+        }
+    },
+    0x0008: {
+        "name": "Brightness",
+        "attributes": {
+            0x0000: {
+                "name":     "level",
+                "type":     "uint8",
+                "writable": True,
+                "scale":    1,
+                "unit":     "",
+            }
+        }
+    },
+    0x0402: {
+        "name": "Temperature",
+        "attributes": {
+            0x0000: {
+                "name":     "temperature",
+                "type":     "int16",
+                "writable": False,
+                "scale":    100,
+                "unit":     "°C",
+            }
+        }
+    },
+    0x0405: {
+        "name": "Humidity",
+        "attributes": {
+            0x0000: {
+                "name":     "humidity",
+                "type":     "uint16",
+                "writable": False,
+                "scale":    100,
+                "unit":     "%",
+            }
+        }
+    },
+}
+
+
+def convert_ui_value_to_raw(ui_value, attr_def: dict):
+    """Convert a GUI value back to a raw ZCL integer."""
+    scale     = attr_def.get("scale", 1)
+    attr_type = attr_def.get("type", "uint8")
+
+    if attr_type == "bool":
+        return 1 if ui_value else 0
+
+    raw = int(round(float(ui_value) * scale))
+
+    if attr_type == "uint8":
+        return max(0, min(254, raw))
+    if attr_type == "uint16":
+        return max(0, min(65534, raw))
+    if attr_type == "int16":
+        return max(-32768, min(32767, raw))
+
+    return raw
+
+
+# ── DEVICE MODEL ───────────────────────────────────────────────────────────────
+# device_manager.py imports DeviceModel to track joined devices.
+
+class DeviceModel:
+    def __init__(self, short_addr: str, ieee_addr: str):
+        self.short_addr = short_addr
+        self.ieee_addr  = ieee_addr
+        self.name       = short_addr
+        self._endpoints: dict[int, list] = {}
+        self._state:     dict[tuple, object] = {}
+
+    def add_endpoint(self, endpoint: int, cluster_ids: list):
+        self._endpoints[endpoint] = cluster_ids
+        self._derive_name()
+
+    def _derive_name(self):
+        clusters = set()
+        for cl in self._endpoints.values():
+            clusters.update(cl)
+
+        if 0x0006 in clusters and 0x0008 in clusters:
+            self.name = "Dimmable Light"
+        elif 0x0006 in clusters:
+            self.name = "On/Off Switch"
+        elif 0x0402 in clusters and 0x0405 in clusters:
+            self.name = "Temp/Humidity Sensor"
+        elif 0x0402 in clusters:
+            self.name = "Temperature Sensor"
+        else:
+            self.name = f"Device {self.short_addr}"
+
+    def update_state(self, endpoint: int, cluster_id: int,
+                     attr_id: int, raw_value: int):
+        cluster_def = CLUSTER_DEFINITIONS.get(cluster_id)
+        if cluster_def:
+            attr_def = cluster_def["attributes"].get(attr_id)
+            if attr_def:
+                scale     = attr_def.get("scale", 1)
+                converted = raw_value / scale if scale != 1 else raw_value
+                self._state[(endpoint, cluster_id, attr_id)] = converted
+                return converted
+        self._state[(endpoint, cluster_id, attr_id)] = raw_value
+        return raw_value
+
+    def get_state(self, endpoint: int, cluster_id: int, attr_id: int):
+        return self._state.get((endpoint, cluster_id, attr_id))
+
+    def get_on_off(self, endpoint: int = 1) -> bool | None:
+        val = self.get_state(endpoint, 0x0006, 0x0000)
+        return bool(val) if val is not None else None
+
+    @property
+    def endpoints(self):
+        return self._endpoints
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# ZIGBEE GATEWAY  —  original class, unchanged
+# ══════════════════════════════════════════════════════════════════════════════
 
 class ZigbeeGateway(QThread):
     """
@@ -35,12 +155,6 @@ class ZigbeeGateway(QThread):
     attribute_reported = pyqtSignal(str, int, int, int, str, int)
     command_ack = pyqtSignal(bool, str)               # is_ok, detail
     connection_status_changed = pyqtSignal(bool)      # is_connected
-
-    # ──────────────────────────────────────────────────────────────────────────
-    # NEW: Emitted when ESP32 sends WAITING_FOR_CONFIG (unconfigured device)
-    # Args: mac (str), pan_id (str)
-    # The GUI connects to this to show a configuration dialog.
-    # ──────────────────────────────────────────────────────────────────────────
     config_requested = pyqtSignal(str, str)
 
     def __init__(self, port: str = "/dev/ttyACM0", baud: int = 115200):
@@ -117,7 +231,6 @@ class ZigbeeGateway(QThread):
 
         print(f"ZigbeeGateway ← ESP32: {cmd}")
 
-        # ── NEW: Handle WAITING_FOR_CONFIG ─────────────────────────────────
         if cmd == "WAITING_FOR_CONFIG":
             mac    = msg.get("mac", "00:00:00:00:00:00")
             pan_id = msg.get("pan_id", "0x0000")
@@ -130,19 +243,22 @@ class ZigbeeGateway(QThread):
             addr    = msg.get("addr", "0x0000")
             room    = msg.get("room", "Unknown")
             print(f"  Gateway ready: room={room} PAN={pan_id} Ch={channel} Addr={addr}")
+            print(f"  ✓ ESP32 coordinator connected and Zigbee network is live")
             self.gateway_ready.emit(pan_id, channel, addr)
 
         elif cmd == "NETWORK_OPEN":
             seconds = msg.get("seconds", 0)
+            print(f"  Network open for {seconds}s — pairing window active")
             self.pairing_status_changed.emit(True, seconds)
 
         elif cmd == "NETWORK_CLOSED":
+            print(f"  Pairing window closed")
             self.pairing_status_changed.emit(False, 0)
 
         elif cmd == "DEVICE_JOINED":
             addr = msg.get("addr", "0x0000")
             ieee = msg.get("ieee", "00:00:00:00:00:00:00:00")
-            print(f"  New device: {addr} (IEEE: {ieee})")
+            print(f"  New device joined: addr={addr} ieee={ieee}")
             self.device_joined.emit(addr, ieee)
 
         elif cmd == "DEVICE_DESCRIPTOR":
@@ -159,6 +275,7 @@ class ZigbeeGateway(QThread):
             attr      = msg.get("attr", 0)
             type_str  = msg.get("type", "uint8")
             raw_value = msg.get("value", 0)
+            print(f"  Attr report: {addr} cluster=0x{cluster:04X} attr=0x{attr:04X} value={raw_value}")
             self.attribute_reported.emit(addr, endpoint, cluster, attr, type_str, raw_value)
 
         elif cmd == "CMD_ACK":
@@ -191,21 +308,7 @@ class ZigbeeGateway(QThread):
             print(f"ZigbeeGateway: write failed: {e}")
             return False
 
-    # ──────────────────────────────────────────────────────────────────────────
-    # NEW: Send configuration to an unconfigured ESP32
-    # ──────────────────────────────────────────────────────────────────────────
     def send_configure(self, channel: int, room_name: str) -> bool:
-        """
-        Send the CONFIGURE command to an unconfigured ESP32.
-        The ESP32 saves this to NVS and starts the Zigbee stack.
-
-        Args:
-            channel:   Zigbee channel (11-26)
-            room_name: Human-readable room name
-
-        Returns:
-            True if the command was sent successfully.
-        """
         return self.send_command({
             "cmd":     "CONFIGURE",
             "channel": channel,
@@ -235,7 +338,6 @@ class ZigbeeGateway(QThread):
 
     def set_attribute_from_ui(self, addr: str, endpoint: int, cluster: int,
                                attr: int, ui_value) -> bool:
-        from zigbee_gateway import CLUSTER_DEFINITIONS, convert_ui_value_to_raw
         cluster_def = CLUSTER_DEFINITIONS.get(cluster)
         if not cluster_def:
             return False
