@@ -48,8 +48,7 @@ CSC 494 - Final Project Presentation
 
 ---
 
-## Problem Statement
-
+## Problem Domain
 ### Initial Challenge: Zigbee Gateway Control
 - **Goal**: Create a centralized control system for Zigbee IoT devices
 - **Requirements**:
@@ -73,8 +72,7 @@ CSC 494 - Final Project Presentation
 ### Why MQTT Over Zigbee?
 - **Faster Implementation**: MQTT protocol is more straightforward to integrate
 - **Flexibility**: Decoupled messaging allows easier device management
-- **Scalability**: Can easily extend to include new IoT devices and sensors
-- **Proven Reliability**: Widely used in production IoT systems
+ 
 - **Development Speed**: Leverages existing MQTT broker infrastructure
 
 ---
